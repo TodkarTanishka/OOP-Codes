@@ -21,11 +21,11 @@ public:
 
     void depoamt()
     {
-        int depamt;
+        int amount;
         cout << "Enter the amount to deposit:\n";
-        cin >> depamt;
+        cin >> amount;
         if(depamt > 0){
-            avbal += depamt;
+            avbal += amount;
             cout << "Amount Deposited successfully!\n";
         } else {
             cout << "Invalid deposit amount!\n";
@@ -33,14 +33,14 @@ public:
     }
     void widamt()
     {
-        int withamt;
+        int amount;
         cout << "Enter the amount to withdraw:\n";
-        cin >> withamt;
-        if (withamt > 0)
+        cin >> amount;
+        if (amount > 0)
         {
-            if (withamt <= avbal)
+            if (amount <= avbal)
             {
-                avbal -= withamt;
+                avbal -= amount;
                 cout << "Amount Withdrawn successfully!\n";
             }
             else
