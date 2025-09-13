@@ -2,97 +2,84 @@
 #include <string>
 using namespace std;
 
-class Employee {
-    int empID;
-    string name, department, doj, address, phone;
-
-    static int count;   // static member
+class Staff {
+protected:
+    int staffID;
+    string name, department;
 
 public:
-    // Default constructor
-    Employee() {
-        empID = 0;
-        count++;
-    }
-
-    // Parameterized constructor
-    Employee(int id, string n, string d, string j, string a, string p) {
-        empID = id;
-        name = n;
-        department = d;
-        doj = j;
-        address = a;
-        phone = p;
-        count++;
-    }
-
-    // Inline function to accept details
-    inline void accept() {
-        cout << "\nEnter Employee ID: ";
-        cin >> empID;
-
+    void acceptBasic() {
+        cout << "Enter Staff ID: ";
+        cin >> staffID;
         cout << "Enter Name: ";
         cin >> name;
-
         cout << "Enter Department: ";
         cin >> department;
-
-        cout << "Enter Date of Joining: ";
-        cin >> doj;
-
-        cout << "Enter Address: ";
-        cin >> address;
-
-        cout << "Enter Phone: ";
-        cin >> phone;
     }
 
-    // Inline function to display details
-    inline void display() {
-        cout << "\nEmployee ID: " << empID;
+    void displayBasic() {
+        cout << "\nStaff ID: " << staffID;
         cout << "\nName: " << name;
         cout << "\nDepartment: " << department;
-        cout << "\nDate of Joining: " << doj;
-        cout << "\nAddress: " << address;
-        cout << "\nPhone: " << phone << endl;
-    }
-
-    // Static function
-    static void showCount() {
-        cout << "\nTotal Employees: " << count << endl;
-    }
-
-    // Destructor
-    ~Employee() {
-        count--;
     }
 };
 
-// Initialize static member
-int Employee::count = 0;
+class Teaching : public Staff {
+    string subject;
+
+public:
+    void acceptTeaching() {
+        acceptBasic();
+        cout << "Enter Subject: ";
+        cin >> subject;
+    }
+
+    void displayTeaching() {
+        displayBasic();
+        cout << "\nSubject: " << subject;
+    }
+};
+
+class NonTeaching : public Staff {
+    string jobRole;
+
+public:
+    void acceptNonTeaching() {
+        acceptBasic();
+        cout << "Enter Job Role: ";
+        cin >> jobRole;
+    }
+
+    void displayNonTeaching() {
+        displayBasic();
+        cout << "\nJob Role: " << jobRole;
+    }
+};
 
 int main() {
-    int n;
-    cout << "Enter number of employees: ";
-    cin >> n;
+    cout << "=== Educational Institution Staff Database ===\n";
 
-    // Dynamic allocation
-    Employee *list = new Employee[n];
+    Teaching* t = new Teaching();
+    cout << "\nEnter Teaching Staff Details:\n";
+    t->acceptTeaching();
 
-    for (int i = 0; i < n; i++) {
-        cout << "\nEnter details of Employee " << i + 1 << ":\n";
-        list[i].accept();
-    }
+    NonTeaching* nt = new NonTeaching();
+    cout << "\nEnter Non-Teaching Staff Details:\n";
+    nt->acceptNonTeaching();
 
-    cout << "\n===== Employee Database =====\n";
-    for (int i = 0; i < n; i++) {
-        list[i].display();
-    }
+   
+    cout << "\n\n=== Staff Records ===\n";
 
-    Employee::showCount();
+    cout << "\nTeaching Staff:";
+    t->displayTeaching();
 
-    // Free memory
-    delete[] list;
+    cout << "\n\nNon-Teaching Staff:";
+    nt->displayNonTeaching();
 
+    delete t;
+    delete nt;
+
+    cout << endl;
     return 0;
 }
+
