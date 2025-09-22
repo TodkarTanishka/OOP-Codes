@@ -2,84 +2,122 @@
 #include <string>
 using namespace std;
 
-class Staff {
-protected:
-    int staffID;
-    string name, department;
+class Employee {
+    int empID;
+    string name, department, doj, address, phone;
+
+    static int count;   // static member
 
 public:
-    void acceptBasic() {
-        cout << "Enter Staff ID: ";
-        cin >> staffID;
+    // Inline welcome function
+    inline void welcome() {
+        cout << "\n--- Welcome to Employee Information System ---\n";
+    }
+
+    // Default constructor
+    Employee() {
+        empID = 0;
+        name = "Unknown";
+        department = "NA";
+        doj = "01-01-2000";
+        address = "NA";
+        phone = "0000000000";
+        count++;
+     }
+
+    // Parameterized constructor
+    Employee(int id, string n, string d, string j, string a, string p) {
+        empID = id;
+        name = n;
+        department = d;
+        doj = j;
+        address = a;
+        phone = p;
+        count++;
+      }
+
+    // Copy constructor
+    Employee(const Employee &e) {
+        empID = e.empID;
+        name = e.name;
+        department = e.department;
+        doj = e.doj;
+        address = e.address;
+        phone = e.phone;
+        count++;
+     }
+
+    // Accept details
+    void accept() {
+        cout << "\nEnter Employee ID: ";
+        cin >> empID;
+
         cout << "Enter Name: ";
         cin >> name;
+
         cout << "Enter Department: ";
         cin >> department;
+
+        cout << "Enter Date of Joining: ";
+        cin >> doj;
+
+        cout << "Enter Address: ";
+        cin >> address;
+
+        cout << "Enter Phone: ";
+        cin >> phone;
     }
 
-    void displayBasic() {
-        cout << "\nStaff ID: " << staffID;
+    // Display details
+    void display() {
+        cout << "\nEmployee ID: " << empID;
         cout << "\nName: " << name;
         cout << "\nDepartment: " << department;
+        cout << "\nDate of Joining: " << doj;
+        cout << "\nAddress: " << address;
+        cout << "\nPhone: " << phone << endl;
+    }
+
+    // Static function
+    static void showCount() {
+        cout << "\nTotal Employees: " << count << endl;
+    }
+
+    // Destructor with message
+    ~Employee() {
+        cout << "\nDestructor called for Employee ID: " << empID << endl;
+        count--;
     }
 };
 
-class Teaching : public Staff {
-    string subject;
-
-public:
-    void acceptTeaching() {
-        acceptBasic();
-        cout << "Enter Subject: ";
-        cin >> subject;
-    }
-
-    void displayTeaching() {
-        displayBasic();
-        cout << "\nSubject: " << subject;
-    }
-};
-
-class NonTeaching : public Staff {
-    string jobRole;
-
-public:
-    void acceptNonTeaching() {
-        acceptBasic();
-        cout << "Enter Job Role: ";
-        cin >> jobRole;
-    }
-
-    void displayNonTeaching() {
-        displayBasic();
-        cout << "\nJob Role: " << jobRole;
-    }
-};
+// Initialize static member
+int Employee::count = 0;
 
 int main() {
-    cout << "=== Educational Institution Staff Database ===\n";
+    // Default constructor
+    Employee *e1 = new Employee();
+    e1->welcome();
 
-    Teaching* t = new Teaching();
-    cout << "\nEnter Teaching Staff Details:\n";
-    t->acceptTeaching();
+    cout << "\nEnter details for Employee 1:\n";
+    e1->accept();
+    cout << "\nEmployee 1 details:";
+    e1->display();
 
-    NonTeaching* nt = new NonTeaching();
-    cout << "\nEnter Non-Teaching Staff Details:\n";
-    nt->acceptNonTeaching();
+    // Parameterized constructor
+  Employee *e2 = new Employee(101, "Rahul", "HR", "10-02-2020", "Mumbai", "9876543210");
+    e2->display();
 
-   
-    cout << "\n\n=== Staff Records ===\n";
+    // Copy constructor
+    Employee *e3 = new Employee(*e2);
+    e3->display();
 
-    cout << "\nTeaching Staff:";
-    t->displayTeaching();
+    // Show employee count
+    Employee::showCount();
 
-    cout << "\n\nNon-Teaching Staff:";
-    nt->displayNonTeaching();
+    // Free memory
+    delete e1;
+    delete e2;
+    delete e3;
 
-    delete t;
-    delete nt;
-
-    cout << endl;
     return 0;
 }
-
