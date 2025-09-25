@@ -1,0 +1,114 @@
+#include<iostream>
+using namespace std;
+
+class CoffeeShop
+{
+	static const int MAX = 10;
+	int tokens[MAX];
+	int nextToken;         
+
+	int rear;
+	int front;
+
+	public:
+	CoffeeShop()
+	{
+		front = -1; 
+		rear = -1;
+		nextToken = 0;
+	}
+	
+	int isEmpty() 
+	{
+		if(front == -1 || front == MAX || rear < front)
+		{ return 1; }
+		else
+		{ return 0; }
+	}	
+
+    int isFull() 
+    {
+		if(rear == MAX - 1)
+		{ return 1; } 
+		else
+		{ return 0; }
+	}
+
+    void enqueue() {
+        if (isFull()) 
+        {
+            cout << "Queue is full." << endl;
+        } 
+        else 
+        {
+            if(rear == -1) { front = 0; }
+            rear = rear + 1;
+            tokens[rear] = nextToken;
+            cout << "Customer given token number: " << nextToken << "\n";
+            nextToken++;
+        }
+    }
+    
+    void dequeue()
+    {
+		if (isEmpty()) 
+		{
+			cout << "Queue is Empty." << endl;
+		}
+		else
+		{
+			cout << "Token processed number: " << tokens[front] << endl;
+			front = front + 1;
+		}
+	}
+
+	void display()
+	{
+		if (isEmpty())
+		{
+			cout << "No tokens in queue." << endl;
+		}
+		else
+		{
+			cout << "Tokens in queue: ";
+			for (int i = front; i <= rear; i++)
+			{
+				cout << tokens[i] << " ";
+			}
+			cout << endl;
+		}
+	}
+};
+
+int main()
+{
+	CoffeeShop c;
+	int choice;
+	char ch = 'Y';
+	do{
+		cout << "\nEnter your choice from below:";
+		cout << "\n1. Get Token \n2. Process Token \n3. Display Tokens \n4. Exit" << endl;
+		cin >> choice;
+		switch(choice)
+		{
+			case 1:
+				c.enqueue();
+				break;
+			case 2:
+				c.dequeue();
+				break;
+			case 3:
+				c.display();
+				break;
+			case 4:
+				cout << "Exiting program..." << endl;
+				break;
+			default:
+				cout << "Invalid choice." << endl;
+		}
+		cout << "Do you want to continue? (Y/N): ";
+		cin >> ch;
+	} while(ch == 'Y' || ch == 'y');
+
+	return 0;
+}
